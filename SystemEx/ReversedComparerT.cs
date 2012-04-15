@@ -4,16 +4,16 @@ using System.Text;
 
 namespace SystemEx
 {
-    public class ReversedComparer<T> : Comparer<T>
+    public class ReversedComparer<T> : IComparer<T>
     {
-        private Comparer<T> _comparer;
+        private IComparer<T> _comparer;
 
-        public ReversedComparer(Comparer<T> comparer)
+        public ReversedComparer(IComparer<T> comparer)
         {
             _comparer = comparer;
         }
 
-        public override int Compare(T x, T y)
+        public int Compare(T x, T y)
         {
             return -_comparer.Compare(x, y);
         }
