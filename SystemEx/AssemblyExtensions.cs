@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System    ;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
@@ -7,7 +7,12 @@ namespace SystemEx
 {
     public static class AssemblyExtensions
     {
-        private static readonly byte[] SystemPublicKeyToken = { 0xB0, 0x3F, 0x5F, 0x7F, 0x11, 0xD5, 0x0A, 0x3A };
+        private static readonly byte[][] SystemPublicKeyTokens = new[]
+        {
+            new byte[] { 0x31, 0xbf, 0x38, 0x56, 0xad, 0x36, 0x4e, 0x35 },
+            new byte[] { 0xb0, 0x3f, 0x5f, 0x7f, 0x11, 0xd5, 0x0a, 0x3a },
+            new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 }
+        };
 
         public static bool IsEcmaAssembly(Assembly asm)
         {
@@ -28,22 +33,26 @@ namespace SystemEx
         {
             byte[] publicKeyToken = asm.GetName().GetPublicKeyToken();
 
-            if (publicKeyToken != null && publicKeyToken.Length == SystemPublicKeyToken.Length)
+            if (publicKeyToken != null)
             {
-                for (int i = 0; i < SystemPublicKeyToken.Length; ++i)
+                foreach (var systemPublicKeyToken in SystemPublicKeyTokens)
                 {
-                    if (SystemPublicKeyToken[i] != publicKeyToken[i])
-                    {
-                        return false;
-                    }
-                }
+                    if (systemPublicKeyToken.Length != publicKeyToken.Length)
+                        continue;
 
-                return true;
+                    bool matched = true;
+
+                    for (int i = 0; i < SystemPublicKeyTokens.Length; ++i)
+                    {
+                        matched = matched && systemPublicKeyToken[i] == publicKeyToken[i];
+                    }
+
+                    if (matched)
+                        return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 }
