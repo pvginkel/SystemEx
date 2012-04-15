@@ -5,12 +5,6 @@ using System.Security.Cryptography;
 
 namespace SystemEx
 {
-    /// <summary>
-    /// Implementation of the Encrypt and Decrypt methods is taken from
-    /// http://stackoverflow.com/questions/667887/aes-in-asp-net-with-vb-net
-    /// and many other website. The current implementation is very sensitive
-    /// because of security concerns and must not be altered.
-    /// </summary>
     public static class Encryption
     {
         public static string Sha1Encode(string value)
