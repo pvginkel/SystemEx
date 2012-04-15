@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemEx", "SystemEx\SystemEx.csproj", "{33968F72-5C89-4F34-A254-414D9B155A5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemEx.DockPanel", "SystemEx.DockPanel\SystemEx.DockPanel.csproj", "{AB0F9CDF-8941-4904-909B-F1031F417644}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemEx.SharpTextEditor", "SystemEx.SharpTextEditor\SystemEx.SharpTextEditor.csproj", "{2FD86842-686C-4666-91C4-10BABA65FD2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33968F72-5C89-4F34-A254-414D9B155A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33968F72-5C89-4F34-A254-414D9B155A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33968F72-5C89-4F34-A254-414D9B155A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33968F72-5C89-4F34-A254-414D9B155A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB0F9CDF-8941-4904-909B-F1031F417644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0F9CDF-8941-4904-909B-F1031F417644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0F9CDF-8941-4904-909B-F1031F417644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0F9CDF-8941-4904-909B-F1031F417644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD86842-686C-4666-91C4-10BABA65FD2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD86842-686C-4666-91C4-10BABA65FD2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD86842-686C-4666-91C4-10BABA65FD2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD86842-686C-4666-91C4-10BABA65FD2C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

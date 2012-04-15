@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{33968F72-5C89-4F34-A254-414D9B155A5E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SystemEx</RootNamespace>
+    <AssemblyName>SystemEx</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyExtensions.cs" />
+    <Compile Include="AssemblyInformation.cs" />
+    <Compile Include="CharEx.cs" />
+    <Compile Include="Collection.cs" />
+    <Compile Include="Conversion.cs" />
+    <Compile Include="Encryption.cs" />
+    <Compile Include="EnumT.cs" />
+    <Compile Include="Escaping.cs" />
+    <Compile Include="FileIcon.cs" />
+    <Compile Include="FileInfoOptions.cs" />
+    <Compile Include="Finalizer.cs" />
+    <Compile Include="IIndexable.cs" />
+    <Compile Include="IMap.cs" />
+    <Compile Include="IndexedList.cs" />
+    <Compile Include="Inflector.cs" />
+    <Compile Include="KeyedCollection.cs" />
+    <Compile Include="LinkDisplayMode.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="ObjectUtil.cs" />
+    <Compile Include="Persist\CommitStoreHandler.cs" />
+    <Compile Include="Persist\Store.cs" />
+    <Compile Include="Persist\StoreItems.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReadOnlyDictionary.cs" />
+    <Compile Include="ReversedComparerT.cs" />
+    <Compile Include="Serialization.cs" />
+    <Compile Include="ShellLink.cs" />
+    <Compile Include="ShellLinkResolveType.cs" />
+    <Compile Include="TriState.cs" />
+    <Compile Include="Tuple.cs" />
+    <Compile Include="Win32\ExternDll.cs" />
+    <Compile Include="Win32\NativeMethods.ComInterfaces.cs" />
+    <Compile Include="Win32\NativeMethods.Constants.cs" />
+    <Compile Include="Win32\NativeMethods.cs" />
+    <Compile Include="Win32\NativeMethods.Methods.cs" />
+    <Compile Include="Win32\NativeMethods.Structs.cs" />
+    <Compile Include="Windows\Forms\ActivationContext.cs" />
+    <Compile Include="Windows\Forms\ActiveTaskDialog.cs" />
+    <Compile Include="Windows\Forms\AdjustControls.cs" />
+    <Compile Include="Windows\Forms\AutoComplete.cs" />
+    <Compile Include="Windows\Forms\AutoCompleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\AutoCompleteForm.Designer.cs">
+      <DependentUpon>AutoCompleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\BreadcrumbToolStripRenderer.cs" />
+    <Compile Include="Windows\Forms\BrowseButton.cs" />
+    <Compile Include="Windows\Forms\BrowseButtonEventHandler.cs" />
+    <Compile Include="Windows\Forms\BrowseForFolderDialog.cs" />
+    <Compile Include="Windows\Forms\BrowserForFolderOptions.cs" />
+    <Compile Include="Windows\Forms\Calculator.cs" />
+    <Compile Include="Windows\Forms\CalculatorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\CalculatorControl.Designer.cs">
+      <DependentUpon>CalculatorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\CalculatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\CalculatorForm.Designer.cs">
+      <DependentUpon>CalculatorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\CancelPreviewEventHandler.cs" />
+    <Compile Include="Windows\Forms\ClassStyles.cs" />
+    <Compile Include="Windows\Forms\CollapsibleSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ControlUtil.cs" />
+    <Compile Include="Windows\Forms\DateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\DateTimePickerEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\DateTimePickerEx.Designer.cs">
+      <DependentUpon>DateTimePickerEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\EditButtonCollection.cs" />
+    <Compile Include="Windows\Forms\EmulateCommandLink.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\EmulateCommandLink.designer.cs">
+      <DependentUpon>EmulateCommandLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\EmulateExpInfoButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\EmulateExpInfoButton.Designer.cs">
+      <DependentUpon>EmulateExpInfoButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\EmulateTaskDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\EmulateTaskDialog.Designer.cs">
+      <DependentUpon>EmulateTaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\ExplorerBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ExplorerBarButton.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarButtonCollection.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarItemRenderEventHandler.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarOffice2003Renderer.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarOffice2007Renderer.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarRenderer.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarRenderEventHandler.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarRenderMode.cs" />
+    <Compile Include="Windows\Forms\ExplorerBarThemedRenderer.cs" />
+    <Compile Include="Windows\Forms\FilesDropData.cs" />
+    <Compile Include="Windows\Forms\FileSystemNode.cs" />
+    <Compile Include="Windows\Forms\FileSystemNodeEventHandler.cs" />
+    <Compile Include="Windows\Forms\FileSystemTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\FileSystemTreeViewMode.cs" />
+    <Compile Include="Windows\Forms\FlyoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\FlyoutState.cs" />
+    <Compile Include="Windows\Forms\FlyoutStateChangedEventHandler.cs" />
+    <Compile Include="Windows\Forms\Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\FormFlowFooter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\FormFooter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\FormGridFooter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\FormHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\IMdiChildForm.cs" />
+    <Compile Include="Windows\Forms\Internal\FormHelper.cs" />
+    <Compile Include="Windows\Forms\IpcHelper.cs" />
+    <Compile Include="Windows\Forms\Label.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\LinePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\LinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\Marquee.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\MdiWindowManager.cs" />
+    <Compile Include="Windows\Forms\MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\MessageFormButton.cs" />
+    <Compile Include="Windows\Forms\MessageFormContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\MessageFormContent.Designer.cs">
+      <DependentUpon>MessageFormContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Forms\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\OldDataObjectItem.cs" />
+    <Compile Include="Windows\Forms\OleDataObject.cs" />
+    <Compile Include="Windows\Forms\OleDropData.cs" />
+    <Compile Include="Windows\Forms\Popup.cs" />
+    <Compile Include="Windows\Forms\PopupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\PopupUtil.cs" />
+    <Compile Include="Windows\Forms\ProcessingPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\RichTextBoxExtended.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\RichTextBoxExtendedRtfEditor.cs" />
+    <Compile Include="Windows\Forms\RichTextBoxExtendedRtfEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ShellIconType.cs" />
+    <Compile Include="Windows\Forms\SimpleNumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\SystemImageList.cs" />
+    <Compile Include="Windows\Forms\TaskbarLocation.cs" />
+    <Compile Include="Windows\Forms\TaskDialog.cs" />
+    <Compile Include="Windows\Forms\TaskDialogCommonDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\TaskDialogNotificationArgs.cs" />
+    <Compile Include="Windows\Forms\TextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ThemedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\TimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\TipInfo.cs" />
+    <Compile Include="Windows\Forms\ToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ToolStripSpringTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ToolStripSpriteButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\ToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\Forms\UacUtil.cs" />
+    <Compile Include="Windows\Forms\VisualStyleUtil.cs" />
+    <Compile Include="XmlData.cs" />
+    <Compile Include="XmlDataNode.cs" />
+    <Compile Include="XmlDataNodeAttributes.cs" />
+    <Compile Include="XmlDataNodeEnumerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Key.snk">
+      <Link>Key.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\CollapsibleSplitter.bmp" />
+    <Content Include="Resources\ArrowHovered.png" />
+    <Content Include="Resources\ArrowNormal.png" />
+    <Content Include="Resources\ChevronLess.png" />
+    <Content Include="Resources\ChevronLessHovered.png" />
+    <Content Include="Resources\ChevronLessPressed.png" />
+    <Content Include="Resources\ChevronMore.png" />
+    <Content Include="Resources\ChevronMoreHovered.png" />
+    <Content Include="Resources\ChevronMorePressed.png" />
+    <Content Include="Resources\DropDown2003.png" />
+    <Content Include="Resources\DropDown2007.png" />
+    <Content Include="Resources\Grip2003.ico" />
+    <Content Include="Resources\Grip2007.ico" />
+    <Content Include="Resources\MessageBoxIconError.png" />
+    <Content Include="Resources\MessageBoxIconInformation.png" />
+    <Content Include="Resources\MessageBoxIconQuestion.png" />
+    <Content Include="Resources\MessageBoxIconStop.png" />
+    <Content Include="Resources\MessageBoxIconWarning.png" />
+    <Content Include="Resources\navigate_close.png" />
+    <Content Include="Resources\navigation-left-disabled.png" />
+    <Content Include="Resources\navigation-left-enabled.png" />
+    <Content Include="Resources\navigation-left-pressed.png" />
+    <Content Include="Resources\navigation-left-selected.png" />
+    <Content Include="Resources\navigation-right-disabled.png" />
+    <Content Include="Resources\navigation-right-enabled.png" />
+    <Content Include="Resources\navigation-right-pressed.png" />
+    <Content Include="Resources\navigation-right-selected.png" />
+    <Content Include="Resources\processing-large.bmp" />
+    <Content Include="Resources\processing-medium.bmp" />
+    <Content Include="Resources\processing-small.bmp" />
+    <Content Include="Resources\themed-grip.png" />
+    <EmbeddedResource Include="Windows\Forms\DateTimePickerEx.resx">
+      <DependentUpon>DateTimePickerEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\EmulateExpInfoButton.resx">
+      <DependentUpon>EmulateExpInfoButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\EmulateTaskDialog.resx">
+      <DependentUpon>EmulateTaskDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\RichTextBoxExtended.resx">
+      <DependentUpon>RichTextBoxExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\RichTextBoxExtendedRtfEditorForm.resx">
+      <DependentUpon>RichTextBoxExtendedRtfEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Resources\calculator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Windows\Forms\AutoCompleteForm.resx">
+      <DependentUpon>AutoCompleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\CalculatorControl.resx">
+      <DependentUpon>CalculatorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\Forms\CalculatorForm.resx">
+      <DependentUpon>CalculatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
