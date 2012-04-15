@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SystemEx.DockPanel</id>
+    <version>$version$</version>
+    <title>SystemEx.DockPanel</title>
+    <authors>Pieter van Ginkel</authors>
+    <owners>Pieter van Ginkel</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.txt</licenseUrl>
+    <projectUrl>http://github.com/pvginkel/SystemEx.DockPanel</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>DockPanel extension for SystemEx.</description>
+    <copyright>Pieter van Ginkel © 2008-2012</copyright>
+    <tags>winforms dockpanel utilities</tags>
+	<dependencies>
+      <dependency id="SystemEx" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\WeifenLuo.WinFormsUI.Docking.dll" target="lib\net20" />
+  </files>
+</package>

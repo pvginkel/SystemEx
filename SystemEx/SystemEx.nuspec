@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SystemEx</id>
+    <version>$version$</version>
+    <title>SystemEx</title>
+    <authors>Pieter van Ginkel</authors>
+    <owners>Pieter van Ginkel</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl-3.0.txt</licenseUrl>
+    <projectUrl>http://github.com/pvginkel/SystemEx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Collection of utilities for working with .NET and WinForms.</description>
+    <copyright>Pieter van Ginkel © 2008-2012</copyright>
+    <tags>utilities winforms</tags>
+  </metadata>
+</package>
