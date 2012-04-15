@@ -13,13 +13,7 @@ a lot of functionality to aid development with .NET and WinForms.
 
 ## Usage
 
-Currently documentation is completely lacking. However, a good starting
-point is to inherit WinForms forms from SystemEx.Windows.Forms.Form.
-This will give you native fonts and automatic restoration of window state
-on program restart.
-
-There is however a lot more functionality there. Just browse around and
-see if anything seems useful.
+Documentation for SystemEx can be found on the [wiki](http://github.com/pvginkel/SystemEx/wiki).
 
 ## Bugs
 
