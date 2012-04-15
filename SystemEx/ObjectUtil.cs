@@ -119,12 +119,6 @@ namespace SystemEx
             throw new ArgumentException("Incompatible type");
         }
 
-        private static bool EqualsCore<T>(IEquatable<T> a, T b)
-            where T : class
-        {
-            return a.Equals(b);
-        }
-
         private static int ComparableCore<T>(IComparable<T> a, T b)
             where T : class
         {
