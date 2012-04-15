@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace SystemEx.Windows.Forms
 {
+    [Obsolete("Use FormFlowFooter")]
     public partial class FormGridFooter : Panel
     {
         private const int CONTROL_SPACING = 10;
