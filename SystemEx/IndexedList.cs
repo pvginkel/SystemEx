@@ -5,6 +5,7 @@ using System.Collections;
 
 namespace SystemEx
 {
+    [Obsolete("Use KeyedCollection")]
     public class IndexedList<T> : IEnumerable<T> where T : IIndexable
     {
         private T[] _items;
