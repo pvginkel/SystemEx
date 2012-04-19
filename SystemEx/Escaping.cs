@@ -119,19 +119,27 @@ namespace SystemEx
 
             for (int i = 0; i < value.Length; i++)
             {
-                if (Char.IsControl(value[i]))
+                switch (value[i])
                 {
-                    sb.Append("\\u");
-                    sb.Append(((int)value[i]).ToString("X4"));
-                }
-                else if (value[i] == '\'' || value[i] == '"')
-                {
-                    sb.Append('\\');
-                    sb.Append(value[i]);
-                }
-                else
-                {
-                    sb.Append(value[i]);
+                    case '\r': sb.Append("\\r"); break;
+                    case '\n': sb.Append("\\n"); break;
+                    case '\t': sb.Append("\\t"); break;
+                    default:
+                        if (Char.IsControl(value[i]))
+                        {
+                            sb.Append("\\u");
+                            sb.Append(((int)value[i]).ToString("X4"));
+                        }
+                        else if (value[i] == '\'' || value[i] == '"')
+                        {
+                            sb.Append('\\');
+                            sb.Append(value[i]);
+                        }
+                        else
+                        {
+                            sb.Append(value[i]);
+                        }
+                        break;
                 }
             }
 
