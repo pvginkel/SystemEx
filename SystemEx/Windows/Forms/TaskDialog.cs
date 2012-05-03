@@ -1039,11 +1039,7 @@ namespace SystemEx.Windows.Forms
                     config.pButtons = Marshal.AllocHGlobal ( elementSize * (int)customButtons.Length );
                     for ( int i = 0; i < customButtons.Length; i++ )
                     {
-                        unsafe // Unsafe because of pointer arithmatic.
-                        {
-                            byte* p = (byte*)config.pButtons;
-                            Marshal.StructureToPtr ( customButtons[i], (IntPtr)( p + ( elementSize * i ) ), false );
-                        }
+                        Marshal.StructureToPtr ( customButtons[i], (IntPtr)( (long)config.pButtons + ( elementSize * i ) ), false );
 
                         config.cButtons++;
                     }
@@ -1057,11 +1053,7 @@ namespace SystemEx.Windows.Forms
                     config.pRadioButtons = Marshal.AllocHGlobal ( elementSize * (int)customRadioButtons.Length );
                     for ( int i = 0; i < customRadioButtons.Length; i++ )
                     {
-                        unsafe // Unsafe because of pointer arithmatic.
-                        {
-                            byte* p = (byte*)config.pRadioButtons;
-                            Marshal.StructureToPtr ( customRadioButtons[i], (IntPtr)( p + ( elementSize * i ) ), false );
-                        }
+                        Marshal.StructureToPtr ( customRadioButtons[i], (IntPtr)( (long)config.pRadioButtons + ( elementSize * i ) ), false );
 
                         config.cRadioButtons++;
                     }
@@ -1129,11 +1121,7 @@ namespace SystemEx.Windows.Forms
                     int elementSize = Marshal.SizeOf ( typeof ( TaskDialogButton ) );
                     for ( int i = 0; i < config.cButtons; i++ )
                     {
-                        unsafe
-                        {
-                            byte* p = (byte*)config.pButtons;
-                            Marshal.DestroyStructure ( (IntPtr)( p + ( elementSize * i ) ), typeof ( TaskDialogButton ) );
-                        }
+                        Marshal.DestroyStructure ( (IntPtr)( (long)config.pButtons + ( elementSize * i ) ), typeof ( TaskDialogButton ) );
                     }
 
                     Marshal.FreeHGlobal ( config.pButtons );
@@ -1144,11 +1132,7 @@ namespace SystemEx.Windows.Forms
                     int elementSize = Marshal.SizeOf ( typeof ( TaskDialogButton ) );
                     for ( int i = 0; i < config.cRadioButtons; i++ )
                     {
-                        unsafe
-                        {
-                            byte* p = (byte*)config.pRadioButtons;
-                            Marshal.DestroyStructure ( (IntPtr)( p + ( elementSize * i ) ), typeof ( TaskDialogButton ) );
-                        }
+                        Marshal.DestroyStructure ( (IntPtr)( (long)config.pRadioButtons + ( elementSize * i ) ), typeof ( TaskDialogButton ) );
                     }
 
                     Marshal.FreeHGlobal ( config.pRadioButtons );

@@ -233,7 +233,7 @@ namespace SystemEx.Win32
         [DllImport(ExternDll.User32, SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool SetWindowText(IntPtr hwnd, String lpString);
 
-        [DllImport(ExternDll.User32)]
+        [DllImport(ExternDll.Shell32)]
         public static extern IntPtr SHGetFileInfo(
            string pszPath,
            int dwFileAttributes,
