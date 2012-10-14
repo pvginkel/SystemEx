@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 namespace SystemEx.Windows.Forms
 {
-    [Obsolete("Use FormFlowFooter")]
     public partial class FormFooter : Panel
     {
         private Color _bumpLightColor = SystemColors.ControlDark;

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemEx", "SystemEx\SystemEx.csproj", "{33968F72-5C89-4F34-A254-414D9B155A5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemEx.DockPanel", "SystemEx.DockPanel\SystemEx.DockPanel.csproj", "{AB0F9CDF-8941-4904-909B-F1031F417644}"

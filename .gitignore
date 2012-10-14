@@ -6,3 +6,4 @@ Thumbs.db
 /*.dotCover
 *.nupkg
 /packages
+/_ReSharper.*
