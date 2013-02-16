@@ -15,10 +15,13 @@ namespace SystemEx.Windows.Forms
         private bool _showingCalled = false;
         private bool _renderSizeGrip = false;
         private SizeGripStyle _lastSizeGripStyle;
+        private bool _disposed;
 
         public Form()
         {
-            _fixer = new Internal.FormHelper(this, true);
+            _fixer = new Internal.FormHelper(this);
+            _fixer.EnableBoundsTracking = true;
+
             _lastSizeGripStyle = SizeGripStyle;
         }
 
@@ -74,11 +77,17 @@ namespace SystemEx.Windows.Forms
             }
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            _fixer.OnClosed(e);
+            if (!_disposed && disposing)
+            {
+                if (!_fixer.InDesignMode)
+                    _fixer.StoreUserSettings();
 
-            base.OnClosed(e);
+                _disposed = true;
+            }
+
+            base.Dispose(disposing);
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -164,12 +173,22 @@ namespace SystemEx.Windows.Forms
         {
             Screen screen;
             var location = this.Location;
+            var size = this.Size;
 
+            if ((specified & BoundsSpecified.X) != 0)
+                location.X = x;
+            if ((specified & BoundsSpecified.Y) != 0)
+                location.Y = y;
+            if ((specified & BoundsSpecified.Width) != 0)
+                size.Width = width;
+            if ((specified & BoundsSpecified.Height) != 0)
+                size.Height = height;
+            
             screen = FindScreen(location);
 
             if (screen == null)
             {
-                location = new Point(location.X + this.Width, location.Y + this.Width);
+                location = new Point(location.X + size.Width, location.Y + size.Height);
 
                 screen = FindScreen(location);
             }

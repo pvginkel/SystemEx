@@ -11,10 +11,12 @@ namespace SystemEx.Windows.Forms
     public class DockContent : WeifenLuo.WinFormsUI.Docking.DockContent
     {
         private FormHelper _fixer;
+        private bool _disposed;
 
         public DockContent()
         {
-            _fixer = new FormHelper(this, false);
+            _fixer = new FormHelper(this);
+            _fixer.EnableBoundsTracking = false;
         }
 
         public event BrowseButtonEventHandler BrowseButtonClick;
@@ -40,11 +42,17 @@ namespace SystemEx.Windows.Forms
             base.SetVisibleCore(value);
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            _fixer.OnClosed(e);
+            if (!_disposed && disposing)
+            {
+                if (!_fixer.InDesignMode)
+                    _fixer.StoreUserSettings();
 
-            base.OnClosed(e);
+                _disposed = true;
+            }
+
+            base.Dispose(disposing);
         }
 
         protected override void OnSizeChanged(EventArgs e)

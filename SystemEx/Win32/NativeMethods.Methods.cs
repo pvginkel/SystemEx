@@ -272,5 +272,8 @@ namespace SystemEx.Win32
 
         [DllImport(ExternDll.Uxtheme, CharSet = CharSet.Unicode)]
         public extern static int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
+
+        [DllImport(ExternDll.User32)]
+        public static extern bool GetMenuItemRect(IntPtr hWnd, IntPtr hMenu, uint uItem, out RECT lprcItem);
     }
 }

@@ -12,24 +12,26 @@ namespace SystemEx.Windows.Forms.Internal
     {
         private const string RegistryBaseStr = "Software\\SystemEx\\Interface";
 
-        private System.Windows.Forms.Form _form;
-        private bool _storePosition;
+        public static string GlobalKeyAddition { get; set; }
+
+        private readonly System.Windows.Forms.Form _form;
         private Point _normalLocation;
         private Size _normalSize;
         private List<PropertyTracker> _propertyTrackers;
         private bool _initializeFormCalled;
-        private string _defaultFontName;
-        private string _correctFontName;
-        private float _correctFontSize;
-        private string _keyAddition;
-        private float _defaultFontSize;
+        private readonly string _defaultFontName;
+        private readonly string _correctFontName;
+        private readonly float _correctFontSize;
+        private readonly float _defaultFontSize;
+        private int? _mainMenuHeight;
 
         public bool InDesignMode { get; private set; }
 
-        public FormHelper(System.Windows.Forms.Form form, bool storePosition)
+        public bool EnableBoundsTracking { get; set; }
+
+        public FormHelper(System.Windows.Forms.Form form)
         {
             _form = form;
-            _storePosition = storePosition;
 
             InDesignMode = ControlUtil.GetIsInDesignMode(form);
 
@@ -43,9 +45,6 @@ namespace SystemEx.Windows.Forms.Internal
 
                 _correctFontName = _form.Font.Name;
                 _correctFontSize = _form.Font.Size;
-
-                _normalLocation = _form.Location;
-                _normalSize = _form.Size;
             }
         }
 
@@ -58,14 +57,6 @@ namespace SystemEx.Windows.Forms.Internal
                 RestoreUserSettings();
 
                 _initializeFormCalled = true;
-            }
-        }
-
-        public void OnClosed(EventArgs e)
-        {
-            if (!InDesignMode)
-            {
-                StoreUserSettings();
             }
         }
 
@@ -106,23 +97,30 @@ namespace SystemEx.Windows.Forms.Internal
             }
         }
 
-        public string KeyAddition
-        {
-            get { return _keyAddition; }
-            set { _keyAddition = value; }
-        }
+        public string KeyAddition { get; set; }
 
         public void StoreUserSettings()
         {
             RegistryKey key = null;
 
-            if (_storePosition && _form.FormBorderStyle != FormBorderStyle.None)
+            if (EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
             {
                 key = FormKey;
 
                 StoreDWord(key, "WindowState", (int)_form.WindowState);
                 StorePoint(key, "Location", _normalLocation);
-                StoreSize(key, "Size", _normalSize);
+
+                var size = _normalSize;
+
+                if (_form.Menu != null)
+                {
+                    size = new Size(
+                        size.Width,
+                        size.Height - SystemInformation.MenuHeight
+                    );
+                }
+
+                StoreSize(key, "Size", size);
             }
 
             // Track all properties
@@ -146,7 +144,7 @@ namespace SystemEx.Windows.Forms.Internal
             RegistryKey key = null;
             bool restored = FormKeyExists;
 
-            if (_storePosition && _form.FormBorderStyle != FormBorderStyle.None)
+            if (EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
             {
                 key = FormKey;
 
@@ -163,6 +161,7 @@ namespace SystemEx.Windows.Forms.Internal
                         if (RestorePoint(key, "Location", ref location))
                         {
                             _form.Location = location;
+                            _form.StartPosition = FormStartPosition.Manual;
                         }
                         break;
                 }
@@ -182,6 +181,19 @@ namespace SystemEx.Windows.Forms.Internal
 
                         if (RestoreSize(key, "Size", ref size))
                         {
+                            if (_form.Menu != null)
+                            {
+                                // When we store the height, the MainMenu
+                                // has already been removed, so this height
+                                // won't include the height of the menu.
+                                // We add it back here.
+
+                                size = new Size(
+                                    size.Width,
+                                    size.Height + SystemInformation.MenuHeight
+                                );
+                            }
+
                             _form.Size = size;
                         }
                         break;
@@ -195,16 +207,12 @@ namespace SystemEx.Windows.Forms.Internal
                     {
                         case FormWindowState.Minimized:
                             if (_form.MinimizeBox)
-                            {
                                 _form.WindowState = FormWindowState.Minimized;
-                            }
                             break;
 
                         case FormWindowState.Maximized:
                             if (_form.MaximizeBox)
-                            {
                                 _form.WindowState = FormWindowState.Maximized;
-                            }
                             break;
 
                         case FormWindowState.Normal:
@@ -230,9 +238,7 @@ namespace SystemEx.Windows.Forms.Internal
             }
 
             if (key != null)
-            {
                 ((IDisposable)key).Dispose();
-            }
 
             return restored;
         }
@@ -246,9 +252,9 @@ namespace SystemEx.Windows.Forms.Internal
         {
             object data = key.GetValue(name);
 
-            if (data != null && data is string)
+            if (data is string)
             {
-                string[] parts = (data as string).Split(new char[] { 'x' });
+                string[] parts = (data as string).Split(new[] { 'x' });
 
                 if (parts.Length == 2)
                 {
@@ -271,9 +277,9 @@ namespace SystemEx.Windows.Forms.Internal
         {
             object data = key.GetValue(name);
 
-            if (data != null && data is string)
+            if (data is string)
             {
-                string[] parts = (data as string).Split(new char[] { 'x' });
+                string[] parts = (data as string).Split(new[] { 'x' });
 
                 if (parts.Length == 2)
                 {
@@ -296,7 +302,7 @@ namespace SystemEx.Windows.Forms.Internal
         {
             object data = key.GetValue(name);
 
-            if (data != null && data is int)
+            if (data is int)
             {
                 value = (int)data;
 
@@ -320,10 +326,8 @@ namespace SystemEx.Windows.Forms.Internal
             {
                 string key = _form.GetType().FullName;
 
-                if (_keyAddition != null)
-                {
-                    key += "$" + _keyAddition;
-                }
+                if (KeyAddition != null)
+                    key += "$" + KeyAddition;
 
                 return key;
             }
@@ -344,8 +348,14 @@ namespace SystemEx.Windows.Forms.Internal
         {
             get
             {
-                return Registry.CurrentUser.CreateSubKey(String.Format(
-                    RegistryBaseStr + "\\{0}", GetScreenDimensionsKey()));
+                string key = RegistryBaseStr;
+
+                if (GlobalKeyAddition != null)
+                    key += "\\" + GlobalKeyAddition;
+
+                key += "\\" + GetScreenDimensionsKey();
+
+                return Registry.CurrentUser.CreateSubKey(key);
             }
         }
 
@@ -381,10 +391,43 @@ namespace SystemEx.Windows.Forms.Internal
             if (!InDesignMode)
             {
                 if (_form.WindowState == FormWindowState.Normal)
-                {
-                    _normalSize = _form.Size;
-                }
+                    _normalSize = GetNormalSize();
             }
+        }
+
+        private Size GetNormalSize()
+        {
+            var size = _form.Size;
+
+            if (_form.Menu != null && !_mainMenuHeight.HasValue)
+            {
+                // We need to subtract the height of the main menu because
+                // when the main menu is made visible after the size has been
+                // restored.
+
+                Win32.NativeMethods.RECT rect;
+
+                Win32.NativeMethods.GetMenuItemRect(
+                    _form.Handle,
+                    _form.Menu.Handle,
+                    0,
+                    out rect
+                );
+
+                // We need to store the main menu height because when disposing
+                // the form, the main menu is removed and becomes Null.
+                // Once we've seen a main menu, we always include it in the
+                // calculations.
+
+                _mainMenuHeight = rect.bottom - rect.top + 1;
+            }
+
+            size = new Size(
+                size.Width,
+                size.Height - _mainMenuHeight.GetValueOrDefault()
+            );
+
+            return size;
         }
 
         public void OnLocationChanged(EventArgs e)
@@ -411,12 +454,14 @@ namespace SystemEx.Windows.Forms.Internal
                     double relativeLocation = (1.0 - relativeSize) / 2.0;
 
                     _form.Location = new Point(
-                        _form.Owner.Location.X + (int)((double)width * relativeLocation),
-                        _form.Owner.Location.Y + (int)((double)height * relativeLocation));
+                        _form.Owner.Location.X + (int)(width * relativeLocation),
+                        _form.Owner.Location.Y + (int)(height * relativeLocation)
+                    );
 
                     _form.Size = new Size(
-                        (int)((double)width * (relativeSize)),
-                        (int)((double)height * (relativeSize)));
+                        (int)(width * relativeSize),
+                        (int)(height * relativeSize)
+                    );
                 }
             }
         }
@@ -433,8 +478,8 @@ namespace SystemEx.Windows.Forms.Internal
 
         private class PropertyTracker
         {
-            private Control _control;
-            private string _property;
+            private readonly Control _control;
+            private readonly string _property;
 
             public PropertyTracker(Control control, string property)
             {
