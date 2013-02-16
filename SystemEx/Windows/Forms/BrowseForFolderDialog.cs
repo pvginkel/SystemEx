@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 using SystemEx.Win32;
 
 namespace SystemEx.Windows.Forms
@@ -9,11 +10,11 @@ namespace SystemEx.Windows.Forms
     public static class BrowseForFolderDialog
     {
         [CLSCompliant(false)]
-        public static string Show(System.Windows.Forms.Form parentForm, string title, BrowseForFolderOptions options)
+        public static string Show(IWin32Window owner, string title, BrowseForFolderOptions options)
         {
             NativeMethods.BROWSEINFO mbif = new NativeMethods.BROWSEINFO();
 
-            mbif.hwndOwner = parentForm.Handle;
+            mbif.hwndOwner = owner == null ? IntPtr.Zero : owner.Handle;
             mbif.lpfn = IntPtr.Zero;
             mbif.lpszTitle = title;
             mbif.ulFlags = (uint)options;
