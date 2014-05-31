@@ -56,6 +56,7 @@
     <Compile Include="FileInfoOptions.cs" />
     <Compile Include="Finalizer.cs" />
     <Compile Include="IIndexable.cs" />
+    <Compile Include="IKeyedCollection.cs" />
     <Compile Include="IMap.cs" />
     <Compile Include="IndexedList.cs" />
     <Compile Include="Inflector.cs" />
@@ -73,6 +74,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ReadOnlyDictionary.cs" />
+    <Compile Include="ReadOnlyKeyedCollection.cs" />
     <Compile Include="ReversedComparerT.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="ShellLink.cs" />
@@ -232,6 +234,7 @@
     <Compile Include="Windows\Forms\ProcessingPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Windows\Forms\ProgressBarUtil.cs" />
     <Compile Include="Windows\Forms\RichTextBoxExtended.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,6 +276,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Windows\Forms\UacUtil.cs" />
+    <Compile Include="Windows\Forms\UserControlEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Windows\Forms\VisualStyleUtil.cs" />
     <Compile Include="XmlData.cs" />
     <Compile Include="XmlDataNode.cs" />

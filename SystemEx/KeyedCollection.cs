@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SystemEx
 {
-    public abstract class KeyedCollection<TKey, TItem> : System.Collections.ObjectModel.KeyedCollection<TKey, TItem>
+    public abstract class KeyedCollection<TKey, TItem> : System.Collections.ObjectModel.KeyedCollection<TKey, TItem>, IKeyedCollection<TKey, TItem>
     {
         public KeyedCollection()
         {

@@ -24,27 +24,31 @@ namespace SystemEx.Windows.Forms.Internal
         private readonly float _correctFontSize;
         private readonly float _defaultFontSize;
         private int? _mainMenuHeight;
+        private readonly Control _control;
 
         public bool InDesignMode { get; private set; }
 
         public bool EnableBoundsTracking { get; set; }
 
-        public FormHelper(System.Windows.Forms.Form form)
+        public FormHelper(Control control)
         {
-            _form = form;
+            _control = control;
+            _form = control as System.Windows.Forms.Form;
 
-            InDesignMode = ControlUtil.GetIsInDesignMode(form);
+            InDesignMode = ControlUtil.GetIsInDesignMode(control);
 
             if (!InDesignMode)
             {
-                _defaultFontName = _form.Font.Name;
-                _defaultFontSize = _form.Font.Size;
+                _defaultFontName = _control.Font.Name;
+                _defaultFontSize = _control.Font.Size;
 
-                _form.AutoScaleMode = AutoScaleMode.None;
-                _form.Font = SystemFonts.MessageBoxFont;
+                if (_form != null)
+                    _form.AutoScaleMode = AutoScaleMode.None;
 
-                _correctFontName = _form.Font.Name;
-                _correctFontSize = _form.Font.Size;
+                _control.Font = SystemFonts.MessageBoxFont;
+
+                _correctFontName = _control.Font.Name;
+                _correctFontSize = _control.Font.Size;
             }
         }
 

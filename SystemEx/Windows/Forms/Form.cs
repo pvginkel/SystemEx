@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using SystemEx.Win32;
 
 namespace SystemEx.Windows.Forms
 {
@@ -15,6 +16,7 @@ namespace SystemEx.Windows.Forms
         private bool _showingCalled = false;
         private bool _renderSizeGrip = false;
         private SizeGripStyle _lastSizeGripStyle;
+        private bool _closeButtonEnabled = true;
         private bool _disposed;
 
         public Form()
@@ -30,6 +32,27 @@ namespace SystemEx.Windows.Forms
         public event EventHandler Showing;
 
         public event BrowseButtonEventHandler BrowseButtonClick;
+
+        [DefaultValue(true)]
+        public bool CloseButtonEnabled
+        {
+            get { return _closeButtonEnabled; }
+            set
+            {
+                if (_closeButtonEnabled != value)
+                {
+                    _closeButtonEnabled = value;
+
+                    NativeMethods.EnableMenuItem(
+                        NativeMethods.GetSystemMenu(this.Handle, false),
+                        NativeMethods.SC_CLOSE,
+                        value ? NativeMethods.MF_ENABLED : NativeMethods.MF_GRAYED
+                    );
+
+                    InvalidateNonClient();
+                }
+            }
+        }
 
         protected virtual void OnBrowseButtonClick(BrowseButtonEventArgs e)
         {
@@ -372,6 +395,11 @@ namespace SystemEx.Windows.Forms
         {
             get { return Win32.NativeMethods.GetForegroundWindow(); }
             set { Win32.NativeMethods.SetForegroundWindow(value); }
+        }
+
+        private void InvalidateNonClient()
+        {
+            NativeMethods.SendMessage(Handle, NativeMethods.WM_NCPAINT, (IntPtr)1, (IntPtr)0);
         }
     }
 }
