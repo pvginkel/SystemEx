@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace SystemEx.Windows.Forms.Internal
 {
-    internal class FormHelper
+    public class FormHelper
     {
         private const string RegistryBaseStr = "Software\\SystemEx\\Interface";
 
