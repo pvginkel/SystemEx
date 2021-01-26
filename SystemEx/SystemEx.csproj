@@ -102,6 +102,9 @@
     <Compile Include="Windows\Forms\BrowseButtonEventHandler.cs" />
     <Compile Include="Windows\Forms\BrowseForFolderDialog.cs" />
     <Compile Include="Windows\Forms\BrowserForFolderOptions.cs" />
+    <Compile Include="Windows\Forms\ButtonEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Windows\Forms\Calculator.cs" />
     <Compile Include="Windows\Forms\CalculatorControl.cs">
       <SubType>UserControl</SubType>

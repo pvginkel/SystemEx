@@ -30,6 +30,8 @@ namespace SystemEx.Windows.Forms.Internal
 
         public bool EnableBoundsTracking { get; set; }
 
+        public event ControlEventHandler FixControl;
+
         public FormHelper(Control control)
         {
             _control = control;
@@ -56,7 +58,7 @@ namespace SystemEx.Windows.Forms.Internal
         {
             if (!InDesignMode && !_initializeFormCalled)
             {
-                FixFonts();
+                FixControls();
 
                 RestoreUserSettings();
 
@@ -64,18 +66,20 @@ namespace SystemEx.Windows.Forms.Internal
             }
         }
 
-        private void FixFonts()
+        private void FixControls()
         {
-            FixFonts(_form.Controls);
+            FixControls(_form);
         }
 
-        private void FixFonts(Control.ControlCollection controls)
+        private void FixControls(Control control)
         {
-            foreach (Control control in controls)
-            {
-                FixFont(control);
+            FixFont(control);
 
-                FixFonts(control.Controls);
+            OnFixControl(new ControlEventArgs(control));
+
+            foreach (Control child in control.Controls)
+            {
+                FixControls(child);
             }
         }
 
@@ -726,6 +730,11 @@ namespace SystemEx.Windows.Forms.Internal
             }
 
             return result;
+        }
+
+        protected virtual void OnFixControl(ControlEventArgs e)
+        {
+            FixControl?.Invoke(this, e);
         }
     }
 }

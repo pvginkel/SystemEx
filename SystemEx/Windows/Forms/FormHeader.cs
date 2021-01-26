@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Text;
 using System.Windows.Forms;
 using SystemEx.Win32;
@@ -10,6 +11,9 @@ namespace SystemEx.Windows.Forms
 {
     public partial class FormHeader : Panel
     {
+        private const int LineSpacing = 5;
+        private const int IndentSubText = 7;
+
         private Color _bumpLightColor = SystemColors.ControlDark;
         private Color _bumpDarkColor = SystemColors.ControlLightLight;
         private string _text = "";
@@ -17,8 +21,6 @@ namespace SystemEx.Windows.Forms
         private Image _image = null;
         private ContentAlignment _imageAlign = ContentAlignment.MiddleCenter;
         private bool _autosize = true;
-        private int _lineSpacing = 5;
-        private int _indentSubText = 7;
 
         public FormHeader()
         {
@@ -106,32 +108,6 @@ namespace SystemEx.Windows.Forms
 
         [Category("Appearance")]
         [Browsable(true)]
-        [DefaultValue(5)]
-        public int LineSpacing
-        {
-            get { return _lineSpacing; }
-            set
-            {
-                _lineSpacing = value;
-                UpdateHeight();
-            }
-        }
-
-        [Category("Appearance")]
-        [Browsable(true)]
-        [DefaultValue(7)]
-        public int IndentSubText
-        {
-            get { return _indentSubText; }
-            set
-            {
-                _indentSubText = value;
-                UpdateHeight();
-            }
-        }
-
-        [Category("Appearance")]
-        [Browsable(true)]
         [DefaultValue(null)]
         public Image Image
         {
@@ -176,6 +152,13 @@ namespace SystemEx.Windows.Forms
             UpdateHeight();
         }
 
+        protected override void OnPaddingChanged(EventArgs e)
+        {
+            base.OnPaddingChanged(e);
+
+            UpdateHeight();
+        }
+
         protected override void OnLayout(LayoutEventArgs e)
         {
             base.OnLayout(e);
@@ -203,8 +186,8 @@ namespace SystemEx.Windows.Forms
             var lightPen = new Pen(_bumpLightColor);
             var darkPen = new Pen(_bumpDarkColor);
 
-            g.DrawLine(lightPen, 0, this.Height - 2, this.Width - 1, this.Height - 2);
-            g.DrawLine(darkPen, 0, this.Height - 1, this.Width - 1, this.Height - 1);
+            g.DrawLine(lightPen, 0, this.Height - ControlUtil.Scale(2), this.Width - ControlUtil.Scale(1), this.Height - ControlUtil.Scale(2));
+            g.DrawLine(darkPen, 0, this.Height - ControlUtil.Scale(1), this.Width - ControlUtil.Scale(1), this.Height - ControlUtil.Scale(1));
 
             var textPos =
                 new Rectangle(
@@ -222,11 +205,11 @@ namespace SystemEx.Windows.Forms
                 TextRenderer.DrawText(g, _text, heavyFont, textPos, this.ForeColor,
                     TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
 
-                int fontHeight = (int)Math.Ceiling(heavyFont.GetHeight(g));
+                int fontHeight = TextRenderer.MeasureText(g, "W", heavyFont).Height;
 
                 if (_subText != "")
                 {
-                    fontHeight += _lineSpacing;
+                    fontHeight += ControlUtil.Scale(LineSpacing);
                 }
 
                 topOffset = fontHeight;
@@ -236,7 +219,7 @@ namespace SystemEx.Windows.Forms
             {
                 textPos =
                     new Rectangle(
-                        textPos.Left + _indentSubText, textPos.Top + topOffset,
+                        textPos.Left + ControlUtil.Scale(IndentSubText), textPos.Top + topOffset,
                         textPos.Width, this.Height - (textPos.Top + topOffset + this.Padding.Bottom)
                     );
 
@@ -328,35 +311,29 @@ namespace SystemEx.Windows.Forms
                 {
                     var heavyFont = new Font(this.Font, FontStyle.Bold);
 
-                    height += (int)Math.Ceiling(heavyFont.GetHeight(g));
+                    height += TextRenderer.MeasureText(g, "W", heavyFont).Height;
 
                     if (_subText != "")
                     {
-                        height += _lineSpacing;
+                        height += ControlUtil.Scale(LineSpacing);
                     }
                 }
 
                 if (_subText != "")
                 {
-                    var size = TextRenderer.MeasureText(g, _subText, Font);
+                    int maxWidth = Width - (this.Padding.Left + this.Padding.Right + ControlUtil.Scale(IndentSubText));
+                    var size = TextRenderer.MeasureText(g, _subText, Font, new Size(maxWidth, int.MaxValue), TextFormatFlags.WordBreak | TextFormatFlags.NoPrefix);
 
-                    int fontHeight = (int)Math.Ceiling(this.Font.GetHeight(g));
-
-                    if (size.Width > Width - (this.Padding.Left + this.Padding.Right + _indentSubText))
-                    {
-                        fontHeight *= 2;
-                    }
-
-                    height += fontHeight;
+                    height += size.Height;
                 }
 
                 g.Dispose();
 
                 if (_image != null)
                 {
-                    if ((_image.Height + 2) > height)
+                    if ((_image.Height + ControlUtil.Scale(2)) > height)
                     {
-                        height = _image.Height + 2;
+                        height = _image.Height + ControlUtil.Scale(2);
                     }
                 }
 

@@ -13,10 +13,13 @@ namespace SystemEx.Windows.Forms
         private FormHelper _fixer;
         private bool _disposed;
 
+        public event ControlEventHandler FixControl;
+
         public DockContent()
         {
             _fixer = new FormHelper(this);
             _fixer.EnableBoundsTracking = false;
+            _fixer.FixControl += (s, e) => OnFixControl(e);
         }
 
         public event BrowseButtonEventHandler BrowseButtonClick;
@@ -151,6 +154,11 @@ namespace SystemEx.Windows.Forms
             }
 
             base.WndProc(ref m);
+        }
+
+        protected virtual void OnFixControl(ControlEventArgs e)
+        {
+            FixControl?.Invoke(this, e);
         }
     }
 }

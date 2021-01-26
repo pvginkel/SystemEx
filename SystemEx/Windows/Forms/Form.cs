@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using SystemEx.Win32;
+using SystemEx.Windows.Forms.Internal;
 
 namespace SystemEx.Windows.Forms
 {
@@ -12,17 +13,20 @@ namespace SystemEx.Windows.Forms
     {
         private const int SizeGripSize = 16;
 
-        private Internal.FormHelper _fixer;
+        private FormHelper _fixer;
         private bool _showingCalled = false;
         private bool _renderSizeGrip = false;
         private SizeGripStyle _lastSizeGripStyle;
         private bool _closeButtonEnabled = true;
         private bool _disposed;
 
+        public event ControlEventHandler FixControl;
+
         public Form()
         {
-            _fixer = new Internal.FormHelper(this);
+            _fixer = new FormHelper(this);
             _fixer.EnableBoundsTracking = true;
+            _fixer.FixControl += (s, e) => OnFixControl(e);
 
             _lastSizeGripStyle = SizeGripStyle;
         }
@@ -400,6 +404,11 @@ namespace SystemEx.Windows.Forms
         private void InvalidateNonClient()
         {
             NativeMethods.SendMessage(Handle, NativeMethods.WM_NCPAINT, (IntPtr)1, (IntPtr)0);
+        }
+
+        protected virtual void OnFixControl(ControlEventArgs e)
+        {
+            FixControl?.Invoke(this, e);
         }
     }
 }
