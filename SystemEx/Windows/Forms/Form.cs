@@ -19,7 +19,6 @@ namespace SystemEx.Windows.Forms
         private SizeGripStyle _lastSizeGripStyle;
         private bool _closeButtonEnabled = true;
         private bool _disposed;
-        private bool _clientSizeScaled;
 
         public event ControlEventHandler FixControl;
 
@@ -30,9 +29,6 @@ namespace SystemEx.Windows.Forms
             _fixer.FixControl += (s, e) => OnFixControl(e);
 
             _lastSizeGripStyle = SizeGripStyle;
-
-            AutoScaleDimensions = new SizeF(96, 96);
-            AutoScaleMode = AutoScaleMode.Dpi;
         }
 
         public event CancelPreviewEventHandler CancelPreview;
@@ -79,24 +75,6 @@ namespace SystemEx.Windows.Forms
         {
             get { return _fixer.KeyAddition; }
             set { _fixer.KeyAddition = value; }
-        }
-
-        protected override void SetClientSizeCore(int x, int y)
-        {
-            if (!_clientSizeScaled)
-            {
-                _clientSizeScaled = true;
-
-                if (ControlUtil.IsDpiScaled)
-                {
-                    var size = ControlUtil.Scale(new Size(x, y));
-
-                    x = size.Width;
-                    y = size.Height;
-                }
-            }
-
-            base.SetClientSizeCore(x, y);
         }
 
         protected override void SetVisibleCore(bool value)
@@ -176,6 +154,8 @@ namespace SystemEx.Windows.Forms
 
                 if (_fixer.InDesignMode)
                     base.AutoScaleMode = value;
+                else
+                    base.AutoScaleMode = AutoScaleMode.Dpi;
             }
         }
 
@@ -189,6 +169,8 @@ namespace SystemEx.Windows.Forms
 
                 if (_fixer.InDesignMode)
                     base.AutoScaleDimensions = value;
+                else
+                    base.AutoScaleDimensions = new SizeF(96, 96);
             }
         }
 

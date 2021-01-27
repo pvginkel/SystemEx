@@ -64,7 +64,7 @@ namespace SystemEx.Windows.Forms.Internal
 
                 FixControls();
 
-                _form?.ResumeLayout();
+                _form?.ResumeLayout(true);
 
                 RestoreUserSettings();
 
@@ -79,6 +79,9 @@ namespace SystemEx.Windows.Forms.Internal
 
         private void FixControls(Control control)
         {
+            if (control is UserControlEx)
+                return;
+
             FixFont(control);
 
             var e = new ControlEventArgs(control);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -22,7 +23,7 @@ namespace SystemEx.Windows.Forms
             base.OnTextChanged(e);
 
             if (AutoSize)
-                Size = Size.Empty;
+                SetBounds(Left, Top, 0, 0, BoundsSpecified.None);
         }
 
         protected override void OnFontChanged(EventArgs e)
@@ -30,7 +31,7 @@ namespace SystemEx.Windows.Forms
             base.OnFontChanged(e);
 
             if (AutoSize)
-                Size = Size.Empty;
+                SetBounds(Left, Top, 0, 0, BoundsSpecified.None);
         }
 
         protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
@@ -39,7 +40,7 @@ namespace SystemEx.Windows.Forms
             {
                 var size = GetPreferredSize(new Size(0, 0));
 
-                base.SetBoundsCore(x, y, size.Width, size.Height, specified | BoundsSpecified.Width | BoundsSpecified.Height);
+                base.SetBoundsCore(x, y, size.Width, size.Height, specified);
             }
             else
             {
