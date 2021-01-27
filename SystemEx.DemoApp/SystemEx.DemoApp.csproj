@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SystemEx.DemoApp</RootNamespace>
     <AssemblyName>SystemEx.DemoApp</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,11 +41,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -60,6 +59,7 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NeutralResources.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -68,6 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.manifest" />
     <None Include="Properties\Settings.settings">
@@ -88,6 +89,51 @@
       <Project>{33968f72-5c89-4f34-a254-414d9b155a5e}</Project>
       <Name>SystemEx</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banana_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banana_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banana_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banana_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\banana_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pineapple_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pineapple_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pineapple_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pineapple_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pineapple_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
