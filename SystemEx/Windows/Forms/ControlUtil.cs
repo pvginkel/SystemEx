@@ -111,10 +111,6 @@ namespace SystemEx.Windows.Forms
                     // see https://github.com/gitextensions/gitextensions/issues/5098
                     upDown.Margin = Scale(new Padding(3));
                     break;
-
-                case Panel panel:
-                    panel.Padding = Scale(panel.Padding);
-                    break;
             }
         }
 
@@ -156,11 +152,20 @@ namespace SystemEx.Windows.Forms
 
         public static Image Scale(Image image)
         {
-            if (!IsDpiScaled)
+            var size = Scale(new Size(image.Width, image.Height));
+
+            return Scale(image, size);
+        }
+
+        public static Image Scale(Image image, Size size)
+        {
+            if (!IsDpiScaled || image.Size == size || image.Tag as string == "__DPI__SCALED__")
                 return image;
 
-            var size = Scale(new Size(image.Width, image.Height));
-            var bitmap = new Bitmap(size.Width, size.Height);
+            var bitmap = new Bitmap(size.Width, size.Height)
+            {
+                Tag = "__DPI__SCALED__"
+            };
 
             using (var g = Graphics.FromImage(bitmap))
             {
