@@ -30,6 +30,9 @@ namespace SystemEx.Windows.Forms
             _fixer.FixControl += (s, e) => OnFixControl(e);
 
             _lastSizeGripStyle = SizeGripStyle;
+
+            AutoScaleDimensions = new SizeF(96, 96);
+            AutoScaleMode = AutoScaleMode.Dpi;
         }
 
         public event CancelPreviewEventHandler CancelPreview;
@@ -173,6 +176,19 @@ namespace SystemEx.Windows.Forms
 
                 if (_fixer.InDesignMode)
                     base.AutoScaleMode = value;
+            }
+        }
+
+        public new SizeF AutoScaleDimensions
+        {
+            get { return base.AutoScaleDimensions; }
+            set
+            {
+                // This value is set by the designer. To not have to manually change the
+                // defaults set by the designer, it's silently ignored here at runtime.
+
+                if (_fixer.InDesignMode)
+                    base.AutoScaleDimensions = value;
             }
         }
 

@@ -42,9 +42,6 @@ namespace SystemEx.Windows.Forms.Internal
                 _defaultFontName = control.Font.Name;
                 _defaultFontSize = control.Font.Size;
 
-                if (_form != null)
-                    _form.AutoScaleMode = AutoScaleMode.None;
-
                 control.Font = SystemFonts.MessageBoxFont;
 
                 _correctFontName = control.Font.Name;
