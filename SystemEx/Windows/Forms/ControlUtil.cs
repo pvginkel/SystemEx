@@ -78,10 +78,6 @@ namespace SystemEx.Windows.Forms
 
             switch (control)
             {
-                case Form form:
-                    form.Size = Scale(form.Size);
-                    break;
-
                 case ButtonBase button:
                     if (button.Image != null)
                     {

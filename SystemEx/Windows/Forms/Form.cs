@@ -19,6 +19,7 @@ namespace SystemEx.Windows.Forms
         private SizeGripStyle _lastSizeGripStyle;
         private bool _closeButtonEnabled = true;
         private bool _disposed;
+        private bool _clientSizeScaled;
 
         public event ControlEventHandler FixControl;
 
@@ -75,6 +76,24 @@ namespace SystemEx.Windows.Forms
         {
             get { return _fixer.KeyAddition; }
             set { _fixer.KeyAddition = value; }
+        }
+
+        protected override void SetClientSizeCore(int x, int y)
+        {
+            if (!_clientSizeScaled)
+            {
+                _clientSizeScaled = true;
+
+                if (ControlUtil.IsDpiScaled)
+                {
+                    var size = ControlUtil.Scale(new Size(x, y));
+
+                    x = size.Width;
+                    y = size.Height;
+                }
+            }
+
+            base.SetClientSizeCore(x, y);
         }
 
         protected override void SetVisibleCore(bool value)

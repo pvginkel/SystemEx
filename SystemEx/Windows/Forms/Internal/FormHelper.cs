@@ -24,7 +24,6 @@ namespace SystemEx.Windows.Forms.Internal
         private readonly float _correctFontSize;
         private readonly float _defaultFontSize;
         private int? _mainMenuHeight;
-        private readonly Control _control;
 
         public bool InDesignMode { get; private set; }
 
@@ -34,23 +33,22 @@ namespace SystemEx.Windows.Forms.Internal
 
         public FormHelper(Control control)
         {
-            _control = control;
             _form = control as System.Windows.Forms.Form;
 
             InDesignMode = ControlUtil.GetIsInDesignMode(control);
 
             if (!InDesignMode)
             {
-                _defaultFontName = _control.Font.Name;
-                _defaultFontSize = _control.Font.Size;
+                _defaultFontName = control.Font.Name;
+                _defaultFontSize = control.Font.Size;
 
                 if (_form != null)
                     _form.AutoScaleMode = AutoScaleMode.None;
 
-                _control.Font = SystemFonts.MessageBoxFont;
+                control.Font = SystemFonts.MessageBoxFont;
 
-                _correctFontName = _control.Font.Name;
-                _correctFontSize = _control.Font.Size;
+                _correctFontName = control.Font.Name;
+                _correctFontSize = control.Font.Size;
             }
         }
 
