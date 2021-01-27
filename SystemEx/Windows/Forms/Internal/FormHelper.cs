@@ -12,6 +12,13 @@ namespace SystemEx.Windows.Forms.Internal
     {
         private const string RegistryBaseStr = "Software\\SystemEx\\Interface";
 
+        public static ControlEventHandler DefaultFixControl;
+
+        private static void OnDefaultFixControl(ControlEventArgs e)
+        {
+            DefaultFixControl?.Invoke(null, e);
+        }
+
         public static string GlobalKeyAddition { get; set; }
 
         private readonly System.Windows.Forms.Form _form;
@@ -53,7 +60,11 @@ namespace SystemEx.Windows.Forms.Internal
         {
             if (!InDesignMode && !_initializeFormCalled)
             {
+                _form?.SuspendLayout();
+
                 FixControls();
+
+                _form?.ResumeLayout();
 
                 RestoreUserSettings();
 
@@ -70,7 +81,10 @@ namespace SystemEx.Windows.Forms.Internal
         {
             FixFont(control);
 
-            OnFixControl(new ControlEventArgs(control));
+            var e = new ControlEventArgs(control);
+
+            OnDefaultFixControl(e);
+            OnFixControl(e);
 
             foreach (Control child in control.Controls)
             {
