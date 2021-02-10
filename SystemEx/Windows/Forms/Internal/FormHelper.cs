@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Collections;
+using System.Reflection;
 
 namespace SystemEx.Windows.Forms.Internal
 {
@@ -46,6 +47,8 @@ namespace SystemEx.Windows.Forms.Internal
 
             if (!InDesignMode)
             {
+                ForceSinglePassDpi();
+
                 _defaultFontName = control.Font.Name;
                 _defaultFontSize = control.Font.Size;
 
@@ -54,6 +57,20 @@ namespace SystemEx.Windows.Forms.Internal
                 _correctFontName = control.Font.Name;
                 _correctFontSize = control.Font.Size;
             }
+        }
+
+        private void ForceSinglePassDpi()
+        {
+            // .NET 4.7 implemented some new features to aid scaling. This code
+            // force enables some of them.
+
+            var dpiHelperType = typeof(System.Windows.Forms.Form).Assembly.GetType("System.Windows.Forms.DpiHelper");
+            if (dpiHelperType == null)
+                return;
+
+            bool enableSinglePassScalingOfDpiForms = (bool)dpiHelperType.GetProperty("EnableSinglePassScalingOfDpiForms", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null, null);
+            if (!enableSinglePassScalingOfDpiForms)
+                dpiHelperType.GetField("enableSinglePassScalingOfDpiForms", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, true);
         }
 
         public void InitializeForm()
