@@ -100,6 +100,13 @@ namespace SystemEx.Windows.Forms
                     splitContainer.SplitterWidth = Scale(splitContainer.SplitterWidth);
                     break;
 
+                case System.Windows.Forms.ListView listView:
+                    foreach (ColumnHeader column in listView.Columns)
+                    {
+                        column.Width = Scale(column.Width);
+                    }
+                    break;
+
                 case TextBoxBase textBox when textBox.Margin == new Padding(12):
                     // Work around a bug in WinForms where the control's margin gets scaled beyond expectations
                     // see https://github.com/gitextensions/gitextensions/issues/5098

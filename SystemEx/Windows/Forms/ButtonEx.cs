@@ -54,17 +54,19 @@ namespace SystemEx.Windows.Forms
                 return base.GetPreferredSize(proposedSize);
 
             int minWidth;
+            int minHeight;
 
             using (var g = CreateGraphics())
             {
                 minWidth = (int)((g.DpiX / 96) * 75);
+                minHeight = (int)((g.DpiY / 96) * 23);
             }
 
             var size = base.GetPreferredSize(new Size(0, 0));
 
             return new Size(
                 Math.Max(minWidth, size.Width),
-                size.Height
+                Math.Max(minHeight, size.Height)
             );
         }
     }

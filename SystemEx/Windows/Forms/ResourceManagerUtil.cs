@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace SystemEx.Windows.Forms
 
             var resourceSet = self.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
             var sizes = new List<int>();
+            bool haveExact = false;
 
             foreach (DictionaryEntry entry in resourceSet)
             {
@@ -30,12 +32,21 @@ namespace SystemEx.Windows.Forms
                     if (int.TryParse(sizeString, out int sizeValue))
                         sizes.Add(sizeValue);
                 }
+                else if (String.Equals(key, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    haveExact = true;
+                }
             }
 
             int? matchedSize = MatchSize(sizes, size);
 
             if (!matchedSize.HasValue)
+            {
+                if (haveExact)
+                    return (Bitmap)resourceSet.GetObject(name);
+
                 throw new ArgumentException("Could not find resource");
+            }
 
             var bitmap = (Bitmap)resourceSet.GetObject(name + "_" + matchedSize.Value);
 
@@ -68,6 +79,27 @@ namespace SystemEx.Windows.Forms
             }
 
             return maxSize ?? minSize;
+        }
+
+        public static ImageList CreateImageList(this ResourceManager self, Size size, params string[] names)
+        {
+            return CreateImageList(self, null, size, names);
+        }
+
+        public static ImageList CreateImageList(this ResourceManager self, IContainer components, Size size, params string[] names)
+        {
+            var imageList = new ImageList
+            {
+                ImageSize = size,
+                TransparentColor = Color.Transparent,
+                ColorDepth = ColorDepth.Depth32Bit
+            };
+
+            components?.Add(imageList);
+
+            self.FillImageList(imageList, names);
+
+            return imageList;
         }
 
         public static void FillImageList(this ResourceManager self, ImageList imageList, params string[] names)
