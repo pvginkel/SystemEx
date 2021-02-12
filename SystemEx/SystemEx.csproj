@@ -134,6 +134,7 @@
     <Compile Include="Windows\Forms\DateTimePickerEx.Designer.cs">
       <DependentUpon>DateTimePickerEx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Forms\DpiScaling.cs" />
     <Compile Include="Windows\Forms\EditButtonCollection.cs" />
     <Compile Include="Windows\Forms\EmulateCommandLink.cs">
       <SubType>Component</SubType>

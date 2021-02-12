@@ -186,8 +186,8 @@ namespace SystemEx.Windows.Forms
             var lightPen = new Pen(_bumpLightColor);
             var darkPen = new Pen(_bumpDarkColor);
 
-            g.DrawLine(lightPen, 0, this.Height - ControlUtil.Scale(2), this.Width - ControlUtil.Scale(1), this.Height - ControlUtil.Scale(2));
-            g.DrawLine(darkPen, 0, this.Height - ControlUtil.Scale(1), this.Width - ControlUtil.Scale(1), this.Height - ControlUtil.Scale(1));
+            g.DrawLine(lightPen, 0, this.Height - DpiScaling.Scale(2), this.Width - DpiScaling.Scale(1), this.Height - DpiScaling.Scale(2));
+            g.DrawLine(darkPen, 0, this.Height - DpiScaling.Scale(1), this.Width - DpiScaling.Scale(1), this.Height - DpiScaling.Scale(1));
 
             var textPos =
                 new Rectangle(
@@ -209,7 +209,7 @@ namespace SystemEx.Windows.Forms
 
                 if (_subText != "")
                 {
-                    fontHeight += ControlUtil.Scale(LineSpacing);
+                    fontHeight += DpiScaling.Scale(LineSpacing);
                 }
 
                 topOffset = fontHeight;
@@ -219,7 +219,7 @@ namespace SystemEx.Windows.Forms
             {
                 textPos =
                     new Rectangle(
-                        textPos.Left + ControlUtil.Scale(IndentSubText), textPos.Top + topOffset,
+                        textPos.Left + DpiScaling.Scale(IndentSubText), textPos.Top + topOffset,
                         textPos.Width, this.Height - (textPos.Top + topOffset + this.Padding.Bottom)
                     );
 
@@ -315,13 +315,13 @@ namespace SystemEx.Windows.Forms
 
                     if (_subText != "")
                     {
-                        height += ControlUtil.Scale(LineSpacing);
+                        height += DpiScaling.Scale(LineSpacing);
                     }
                 }
 
                 if (_subText != "")
                 {
-                    int maxWidth = Width - (this.Padding.Left + this.Padding.Right + ControlUtil.Scale(IndentSubText));
+                    int maxWidth = Width - (this.Padding.Left + this.Padding.Right + DpiScaling.Scale(IndentSubText));
                     var size = TextRenderer.MeasureText(g, _subText, Font, new Size(maxWidth, int.MaxValue), TextFormatFlags.WordBreak | TextFormatFlags.NoPrefix);
 
                     height += size.Height;
@@ -331,9 +331,9 @@ namespace SystemEx.Windows.Forms
 
                 if (_image != null)
                 {
-                    if ((_image.Height + ControlUtil.Scale(2)) > height)
+                    if ((_image.Height + DpiScaling.Scale(2)) > height)
                     {
-                        height = _image.Height + ControlUtil.Scale(2);
+                        height = _image.Height + DpiScaling.Scale(2);
                     }
                 }
 

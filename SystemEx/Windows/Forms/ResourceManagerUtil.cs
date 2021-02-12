@@ -15,8 +15,8 @@ namespace SystemEx.Windows.Forms
     {
         public static Image GetScaledImage(this ResourceManager self, string name, int size)
         {
-            if (ControlUtil.IsDpiScaled)
-                size = ControlUtil.Scale(size);
+            if (DpiScaling.IsDpiScaled)
+                size = DpiScaling.Scale(size);
 
             var resourceSet = self.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
             var sizes = new List<int>();
@@ -52,7 +52,7 @@ namespace SystemEx.Windows.Forms
 
             bitmap.SetResolution(96, 96);
 
-            var result = ControlUtil.Scale(bitmap, new Size(size, size));
+            var result = DpiScaling.Scale(bitmap, new Size(size, size));
 
             result.Tag = "__DPI__SCALED__";
 
@@ -106,7 +106,7 @@ namespace SystemEx.Windows.Forms
         {
             int size = imageList.ImageSize.Width;
 
-            imageList.ImageSize = ControlUtil.Scale(imageList.ImageSize);
+            imageList.ImageSize = DpiScaling.Scale(imageList.ImageSize);
 
             foreach (string name in names)
             {

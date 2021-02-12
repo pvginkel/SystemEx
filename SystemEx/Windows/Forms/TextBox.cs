@@ -9,9 +9,9 @@ namespace SystemEx.Windows.Forms
 {
     public class TextBox : System.Windows.Forms.TextBox
     {
-        private const int EditButtonWidth = 23;
+        private static int EditButtonWidth => DpiScaling.Scale(23);
         private const int EditButtonSpacing = 0;
-        private const int EditButtonOffset = 1;
+        private const int EditButtonOffset = 1; // This looks funny if it's scaled also.
 
         private int _leftMargin = 0;
         private int _rightMargin = 0;
