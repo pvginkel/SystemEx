@@ -28,6 +28,14 @@ namespace SystemEx.Windows.Forms
             );
         }
 
+        public static SizeF Scale(SizeF size)
+        {
+            return new SizeF(
+                (int)(size.Width * ScaleX),
+                (int)(size.Height * ScaleY)
+            );
+        }
+
         public static int Scale(int i)
         {
             return (int)Math.Round(i * ScaleX);
