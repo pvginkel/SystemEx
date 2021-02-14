@@ -23,6 +23,7 @@ namespace SystemEx.Windows.Forms.Internal
         public static string GlobalKeyAddition { get; set; }
 
         private readonly System.Windows.Forms.Form _form;
+        private Control _control;
         private Point _normalLocation;
         private Size _normalSize;
         private List<PropertyTracker> _propertyTrackers;
@@ -41,6 +42,7 @@ namespace SystemEx.Windows.Forms.Internal
 
         public FormHelper(Control control)
         {
+            _control = control;
             _form = control as System.Windows.Forms.Form;
 
             InDesignMode = ControlUtil.GetIsInDesignMode(control);
@@ -91,12 +93,12 @@ namespace SystemEx.Windows.Forms.Internal
 
         private void FixControls()
         {
-            FixControls(_form);
+            FixControls(_control, true);
         }
 
-        private void FixControls(Control control)
+        private void FixControls(Control control, bool force = false)
         {
-            if (control is UserControlEx)
+            if (control is UserControlEx && !force)
                 return;
 
             FixFont(control);
@@ -181,7 +183,7 @@ namespace SystemEx.Windows.Forms.Internal
             RegistryKey key = null;
             bool restored = FormKeyExists;
 
-            if (EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
+            if (_form != null && EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
             {
                 key = FormKey;
 
@@ -361,7 +363,7 @@ namespace SystemEx.Windows.Forms.Internal
         {
             get
             {
-                string key = _form.GetType().FullName;
+                string key = _control.GetType().FullName;
 
                 if (KeyAddition != null)
                     key += "$" + KeyAddition;

@@ -99,19 +99,6 @@ namespace SystemEx.Windows.Forms
                         column.Width = DpiScaling.Scale(column.Width);
                     }
                     break;
-
-                case TableLayoutPanel tableLayoutPanel:
-                    foreach (ColumnStyle columnStyle in tableLayoutPanel.ColumnStyles)
-                    {
-                        if (columnStyle.SizeType == SizeType.Absolute)
-                            columnStyle.Width = DpiScaling.Scale(columnStyle.Width);
-                    }
-                    foreach (RowStyle rowStyle in tableLayoutPanel.RowStyles)
-                    {
-                        if (rowStyle.SizeType == SizeType.Absolute)
-                            rowStyle.Height = DpiScaling.Scale(rowStyle.Height);
-                    }
-                    break;
             }
         }
     }
