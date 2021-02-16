@@ -16,7 +16,7 @@ namespace SystemEx.DemoApp
         {
             InitializeComponent();
 
-            toolStrip1.ImageScalingSize = ControlUtil.Scale(toolStrip1.ImageScalingSize);
+            toolStrip1.ImageScalingSize = DpiScaling.Scale(toolStrip1.ImageScalingSize);
 
             toolStripButton1.Image = Program.NeutralResources.GetScaledImage("apple", 16);
             toolStripButton2.Image = Program.NeutralResources.GetScaledImage("banana", 16);
