@@ -12,11 +12,9 @@
     <description>DockPanel extension for SystemEx.</description>
     <copyright>Pieter van Ginkel © 2008-2012</copyright>
     <tags>winforms dockpanel utilities</tags>
-	<dependencies>
+    <dependencies>
       <dependency id="SystemEx" version="$version$" />
+      <dependency id="DockPanelSuite" version="3.0.6" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\Release\WeifenLuo.WinFormsUI.Docking.dll" target="lib\net20" />
-  </files>
 </package>
