@@ -77,22 +77,6 @@ namespace SystemEx.Windows.Forms
                         pictureBox.Image = DpiScaling.Scale(pictureBox.Image);
                     break;
 
-                case SplitContainer splitContainer:
-                    if (splitContainer.FixedPanel == FixedPanel.Panel2)
-                    {
-                        if (splitContainer.Orientation == Orientation.Horizontal)
-                            splitContainer.SplitterDistance = splitContainer.Height - DpiScaling.Scale(splitContainer.Height - splitContainer.SplitterDistance);
-                        else
-                            splitContainer.SplitterDistance = splitContainer.Width - DpiScaling.Scale(splitContainer.Width - splitContainer.SplitterDistance);
-                    }
-                    else
-                    {
-                        splitContainer.SplitterDistance = DpiScaling.Scale(splitContainer.SplitterDistance);
-                    }
-
-                    splitContainer.SplitterWidth = DpiScaling.Scale(splitContainer.SplitterWidth);
-                    break;
-
                 case System.Windows.Forms.ListView listView:
                     foreach (ColumnHeader column in listView.Columns)
                     {

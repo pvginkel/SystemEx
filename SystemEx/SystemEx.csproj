@@ -252,6 +252,9 @@
     <Compile Include="Windows\Forms\SimpleNumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Windows\Forms\SplitContainerEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Windows\Forms\SystemImageList.cs" />
     <Compile Include="Windows\Forms\TaskbarLocation.cs" />
     <Compile Include="Windows\Forms\TaskDialog.cs" />
