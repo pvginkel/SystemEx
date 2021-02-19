@@ -10,7 +10,7 @@ namespace SystemEx.Windows.Forms
 {
     public class UserControlEx : System.Windows.Forms.UserControl
     {
-        private readonly FormHelper _fixer;
+        internal FormHelper Fixer { get; }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -23,7 +23,7 @@ namespace SystemEx.Windows.Forms
                 // This value is set by the designer. To not have to manually change the
                 // defaults set by the designer, it's silently ignored here at runtime.
 
-                if (_fixer.InDesignMode)
+                if (Fixer.InDesignMode)
                     base.AutoScaleMode = value;
                 else
                     base.AutoScaleMode = AutoScaleMode.Dpi;
@@ -38,7 +38,7 @@ namespace SystemEx.Windows.Forms
                 // This value is set by the designer. To not have to manually change the
                 // defaults set by the designer, it's silently ignored here at runtime.
 
-                if (_fixer.InDesignMode)
+                if (Fixer.InDesignMode)
                     base.AutoScaleDimensions = value;
                 else
                     base.AutoScaleDimensions = new SizeF(96, 96);
@@ -49,14 +49,14 @@ namespace SystemEx.Windows.Forms
 
         public UserControlEx()
         {
-            _fixer = new FormHelper(this);
-            _fixer.EnableBoundsTracking = true;
-            _fixer.FixControl += (s, e) => OnFixControl(e);
+            Fixer = new FormHelper(this);
+            Fixer.EnableBoundsTracking = true;
+            Fixer.FixControl += (s, e) => OnFixControl(e);
         }
 
         protected override void SetVisibleCore(bool value)
         {
-            _fixer.InitializeForm();
+            Fixer.InitializeForm();
 
             base.SetVisibleCore(value);
         }

@@ -79,6 +79,8 @@ namespace SystemEx.Windows.Forms.Internal
         {
             if (!InDesignMode && !_initializeFormCalled)
             {
+                _initializeFormCalled = true;
+
                 _form?.SuspendLayout();
 
                 FixControls();
@@ -86,8 +88,6 @@ namespace SystemEx.Windows.Forms.Internal
                 _form?.ResumeLayout(true);
 
                 RestoreUserSettings();
-
-                _initializeFormCalled = true;
             }
         }
 
@@ -98,8 +98,12 @@ namespace SystemEx.Windows.Forms.Internal
 
         private void FixControls(Control control, bool force = false)
         {
-            if (control is UserControlEx && !force)
-                return;
+            if (control is UserControlEx userControlEx)
+            {
+                userControlEx.Fixer.InitializeForm();
+                if (!force)
+                    return;
+            }
 
             FixFont(control);
 
