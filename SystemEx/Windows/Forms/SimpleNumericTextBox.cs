@@ -19,6 +19,7 @@ namespace SystemEx.Windows.Forms
         private decimal? _lastValue;
         private bool _isCalculatorEnabled;
         private Button _calculatorButton;
+        private bool _suppressSetValue;
 
         public SimpleNumericTextBox()
         {
@@ -106,18 +107,7 @@ namespace SystemEx.Windows.Forms
         public decimal? Value
         {
             get { return _value; }
-            set
-            {
-                if (!Equals(_value, value))
-                {
-                    _value = value;
-                    _lastValue = value;
-
-                    FormatText();
-
-                    OnValueChanged(EventArgs.Empty);
-                }
-            }
+            set { SetValue(value, true); }
         }
 
         [DefaultValue(HorizontalAlignment.Right)]
@@ -137,11 +127,44 @@ namespace SystemEx.Windows.Forms
                 ValueChanged(this, e);
         }
 
+        private void SetValue(decimal? value, bool force)
+        {
+            if (_suppressSetValue)
+                return;
+
+            _suppressSetValue = true;
+
+            try
+            {
+                if (!Equals(_value, value) || force)
+                {
+                    _value = value;
+                    _lastValue = value;
+
+                    if (force)
+                        FormatText();
+
+                    OnValueChanged(EventArgs.Empty);
+                }
+            }
+            finally
+            {
+                _suppressSetValue = false;
+            }
+        }
+
         protected override void OnValidating(CancelEventArgs e)
         {
-            Value = Parse(Text);
+            SetValue(Parse(Text), true);
 
             base.OnValidating(e);
+        }
+
+        protected override void OnTextChanged(EventArgs e)
+        {
+            SetValue(Parse(Text), false);
+
+            base.OnTextChanged(e);
         }
 
         private decimal? Parse(string text)
