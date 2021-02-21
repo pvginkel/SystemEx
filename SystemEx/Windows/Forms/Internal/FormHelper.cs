@@ -418,6 +418,8 @@ namespace SystemEx.Windows.Forms.Internal
                 }
             }
 
+            sb.Append('@').Append(DpiScaling.DpiX);
+
             return sb.ToString();
         }
 
