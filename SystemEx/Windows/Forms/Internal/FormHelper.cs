@@ -534,7 +534,7 @@ namespace SystemEx.Windows.Forms.Internal
             {
                 var controlKey = key.CreateSubKey("Controls\\" + _control.Name);
 
-                var property = _control.GetType().GetProperty(_property);
+                var property = _control.GetType().GetProperty(_property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                 controlKey.SetValue(_property, property.GetValue(_control, null).ToString());
             }
@@ -549,7 +549,7 @@ namespace SystemEx.Windows.Forms.Internal
 
                     if (value != null)
                     {
-                        var property = _control.GetType().GetProperty(_property);
+                        var property = _control.GetType().GetProperty(_property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                         try
                         {
