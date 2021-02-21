@@ -146,144 +146,156 @@ namespace SystemEx.Windows.Forms.Internal
         {
             RegistryKey key = null;
 
-            if (EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
+            try
             {
-                key = FormKey;
-
-                StoreDWord(key, "WindowState", (int)_form.WindowState);
-                StorePoint(key, "Location", _normalLocation);
-
-                var size = _normalSize;
-
-                if (_form.Menu != null)
+                if (EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
                 {
-                    size = new Size(
-                        size.Width,
-                        size.Height - SystemInformation.MenuHeight
-                    );
-                }
+                    key = FormKey;
 
-                StoreSize(key, "Size", size);
-            }
+                    StoreDWord(key, "WindowState", (int)_form.WindowState);
+                    StorePoint(key, "Location", _normalLocation);
 
-            // Track all properties
+                    var size = _normalSize;
 
-            if (_propertyTrackers != null)
-            {
-                foreach (var item in _propertyTrackers)
-                {
-                    if (key == null)
+                    if (_form.Menu != null)
                     {
-                        key = FormKey;
+                        size = new Size(
+                            size.Width,
+                            size.Height - SystemInformation.MenuHeight
+                        );
                     }
 
-                    item.Store(key);
+                    StoreSize(key, "Size", size);
                 }
+
+                // Track all properties
+
+                if (_propertyTrackers != null)
+                {
+                    foreach (var item in _propertyTrackers)
+                    {
+                        if (key == null)
+                        {
+                            key = FormKey;
+                        }
+
+                        item.Store(key);
+                    }
+                }
+            }
+            finally
+            {
+                key?.Close();
             }
         }
 
         public bool RestoreUserSettings()
         {
             RegistryKey key = null;
-            bool restored = FormKeyExists;
 
-            if (_form != null && EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
+            try
             {
-                key = FormKey;
+                bool restored = FormKeyExists;
 
-                switch (_form.StartPosition)
+                if (_form != null && EnableBoundsTracking && _form.FormBorderStyle != FormBorderStyle.None)
                 {
-                    case FormStartPosition.CenterParent:
-                    case FormStartPosition.CenterScreen:
-                        // Do not restore the location
-                        break;
+                    key = FormKey;
 
-                    default:
-                        Point location = _form.Location;
+                    switch (_form.StartPosition)
+                    {
+                        case FormStartPosition.CenterParent:
+                        case FormStartPosition.CenterScreen:
+                            // Do not restore the location
+                            break;
 
-                        if (RestorePoint(key, "Location", ref location))
-                        {
-                            _form.Location = location;
-                            _form.StartPosition = FormStartPosition.Manual;
-                        }
-                        break;
-                }
+                        default:
+                            Point location = _form.Location;
 
-                switch (_form.FormBorderStyle)
-                {
-                    case FormBorderStyle.None:
-                    case FormBorderStyle.FixedSingle:
-                    case FormBorderStyle.Fixed3D:
-                    case FormBorderStyle.FixedDialog:
-                    case FormBorderStyle.FixedToolWindow:
-                        // Do not restore the size
-                        break;
-
-                    default:
-                        Size size = _form.Size;
-
-                        if (RestoreSize(key, "Size", ref size))
-                        {
-                            if (_form.Menu != null)
+                            if (RestorePoint(key, "Location", ref location))
                             {
-                                // When we store the height, the MainMenu
-                                // has already been removed, so this height
-                                // won't include the height of the menu.
-                                // We add it back here.
-
-                                size = new Size(
-                                    size.Width,
-                                    size.Height + SystemInformation.MenuHeight
-                                );
+                                _form.Location = location;
+                                _form.StartPosition = FormStartPosition.Manual;
                             }
+                            break;
+                    }
 
-                            _form.Size = size;
+                    switch (_form.FormBorderStyle)
+                    {
+                        case FormBorderStyle.None:
+                        case FormBorderStyle.FixedSingle:
+                        case FormBorderStyle.Fixed3D:
+                        case FormBorderStyle.FixedDialog:
+                        case FormBorderStyle.FixedToolWindow:
+                            // Do not restore the size
+                            break;
+
+                        default:
+                            Size size = _form.Size;
+
+                            if (RestoreSize(key, "Size", ref size))
+                            {
+                                if (_form.Menu != null)
+                                {
+                                    // When we store the height, the MainMenu
+                                    // has already been removed, so this height
+                                    // won't include the height of the menu.
+                                    // We add it back here.
+
+                                    size = new Size(
+                                        size.Width,
+                                        size.Height + SystemInformation.MenuHeight
+                                    );
+                                }
+
+                                _form.Size = size;
+                            }
+                            break;
+                    }
+
+                    int windowState = (int)_form.WindowState;
+
+                    if (RestoreDWord(key, "WindowState", ref windowState))
+                    {
+                        switch ((FormWindowState)windowState)
+                        {
+                            case FormWindowState.Minimized:
+                                if (_form.MinimizeBox)
+                                    _form.WindowState = FormWindowState.Minimized;
+                                break;
+
+                            case FormWindowState.Maximized:
+                                if (_form.MaximizeBox)
+                                    _form.WindowState = FormWindowState.Maximized;
+                                break;
+
+                            case FormWindowState.Normal:
+                                _form.WindowState = FormWindowState.Normal;
+                                break;
                         }
-                        break;
-                }
-
-                int windowState = (int)_form.WindowState;
-
-                if (RestoreDWord(key, "WindowState", ref windowState))
-                {
-                    switch ((FormWindowState)windowState)
-                    {
-                        case FormWindowState.Minimized:
-                            if (_form.MinimizeBox)
-                                _form.WindowState = FormWindowState.Minimized;
-                            break;
-
-                        case FormWindowState.Maximized:
-                            if (_form.MaximizeBox)
-                                _form.WindowState = FormWindowState.Maximized;
-                            break;
-
-                        case FormWindowState.Normal:
-                            _form.WindowState = FormWindowState.Normal;
-                            break;
                     }
                 }
+
+                // Restore all properties
+
+                if (_propertyTrackers != null)
+                {
+                    foreach (var item in _propertyTrackers)
+                    {
+                        if (key == null)
+                        {
+                            key = FormKey;
+                        }
+
+                        item.Restore(key);
+                    }
+                }
+
+                return restored;
             }
-
-            // Restore all properties
-
-            if (_propertyTrackers != null)
+            finally
             {
-                foreach (var item in _propertyTrackers)
-                {
-                    if (key == null)
-                    {
-                        key = FormKey;
-                    }
-
-                    item.Restore(key);
-                }
+                key?.Close();
             }
-
-            if (key != null)
-                ((IDisposable)key).Dispose();
-
-            return restored;
         }
 
         private void StoreSize(RegistryKey key, string name, Size value)
@@ -359,7 +371,10 @@ namespace SystemEx.Windows.Forms.Internal
         {
             get
             {
-                return UserSettingsKey.CreateSubKey(FormKeyName);
+                using (var key = UserSettingsKey)
+                {
+                    return key.CreateSubKey(FormKeyName);
+                }
             }
         }
 
@@ -534,36 +549,38 @@ namespace SystemEx.Windows.Forms.Internal
 
             public void Store(RegistryKey key)
             {
-                var controlKey = key.CreateSubKey("Controls\\" + _control.Name);
+                using (var controlKey = key.CreateSubKey("Controls\\" + _control.Name))
+                {
+                    var property = _control.GetType().GetProperty(_property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-                var property = _control.GetType().GetProperty(_property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-                controlKey.SetValue(_property, property.GetValue(_control, null).ToString());
+                    controlKey.SetValue(_property, property.GetValue(_control, null).ToString());
+                }
             }
 
             public void Restore(RegistryKey key)
             {
-                var controlKey = key.OpenSubKey("Controls\\" + _control.Name);
-
-                if (controlKey != null)
+                using (var controlKey = key.OpenSubKey("Controls\\" + _control.Name))
                 {
-                    object value = controlKey.GetValue(_property);
-
-                    if (value != null)
+                    if (controlKey != null)
                     {
-                        var property = _control.GetType().GetProperty(_property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                        object value = controlKey.GetValue(_property);
 
-                        try
+                        if (value != null)
                         {
-                            property.SetValue(
-                                _control,
-                                Convert.ChangeType(value, property.PropertyType),
-                                null);
-                        }
-                        catch
-                        {
-                            // The store value could be illegal. In this case,
-                            // we just ignore the exception.
+                            var property = _control.GetType().GetProperty(_property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                            try
+                            {
+                                property.SetValue(
+                                    _control,
+                                    Convert.ChangeType(value, property.PropertyType),
+                                    null);
+                            }
+                            catch
+                            {
+                                // The store value could be illegal. In this case,
+                                // we just ignore the exception.
+                            }
                         }
                     }
                 }
